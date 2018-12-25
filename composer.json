@@ -1,0 +1,22 @@
+{
+    "name": "eltonjtoledo/ecommerce",
+    "description": "this is a project created using new version of php 7 and putting into practice all the knowledge acquired in the php upgrade course!",
+    "type": "project",
+    "authors": [
+        {
+            "name": "eltonjtoledo",
+            "email": "eltonjtoledo@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+    	"phpmailer/phpmailer":"5.2.22",
+    	"slim/slim":"2.0",
+    	"rain/raintpl":"3.0.0"
+    },
+     "autoload": {
+        "psr-4": {
+            "Hcode\\": "vendor\\hcodebr\\php-classes\\src"
+        }
+    }
+}
