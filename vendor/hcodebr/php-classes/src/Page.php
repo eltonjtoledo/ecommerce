@@ -48,10 +48,7 @@ class Page {
             $this->tpl->assign($key, $value);
         }
     }
-    
-    
-    
-    
+
     public function __destruct() {
         $this->tpl->draw("footer");
     }
