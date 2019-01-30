@@ -7,6 +7,7 @@ use Slim\Slim;
 use Hcode\Page;
 use Hcode\PageAdmin;
 use Hcode\Model\User;
+use Hcode\Model\Category;
 
 $app = new Slim;
 
@@ -154,7 +155,8 @@ $app->get('/admin/forgot/reset', function(){
     ));
 });
 
-$app->post('/admin/forgot/reset', function(){
+$app->post('/admin/forgot/reset', function()
+{
     $forgot = User::validForgotDecrypt($_POST['code']);
     
     User::setForgotUsed($forgot['idrecovery']);
@@ -172,6 +174,67 @@ $app->post('/admin/forgot/reset', function(){
     ]);
     
     $page->setTpl("forgot-reset-success");
+});
+
+$app->get("/admin/categories", function()
+{
+    
+    $categories = Category::listAll();
+
+    $page = new PageAdmin();
+    $page->setTpl("categories", [
+        'categories' => $categories
+    ]);
+});
+
+$app->get("/admin/categories/create", function()
+{
+    User::verifyLogin();
+    $page = new PageAdmin();
+    $page->setTpl("categories-create");
+});
+
+$app->post("/admin/categories/create",function()
+{
+    $dados = $_POST;
+    Category::save($dados);
+    
+    header('Location: /admin/categories');
+    exit;
+});
+
+$app->get("/admin/categories/update/:idcategory", function($idcategory)
+{
+    User::verifyLogin();
+
+    $categories  = new Category();
+    $category = $categories->getCategory((int) $idcategory);
+    $page = new PageAdmin();
+    
+     $page->setTpl("categories-update", [
+         'category' => $category
+     ]);
+     exit;
+});
+
+
+$app->post("/admin/categories/update/:idcategory", function($idcategory)
+{
+    $data = $_POST;
+    Category::Update($idcategory,$data);
+
+    header('Location: /admin/categories');
+    exit;
+});
+
+$app->get("/admin/categories/:idcategory/delete", function($idcategory)
+{
+    User::verifyLogin();
+
+    Category::delete($idcategory);
+    
+    header('Location: /admin/categories');
+    exit;
 });
 $app->run();
 ?>
