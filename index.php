@@ -19,6 +19,20 @@ $app->get('/', function() {
     $page->setTpl("index");
 });
 
+$app->get('/categoria/:idcategory', function($idcategory) {
+
+    $categories = new Category;
+
+    $category = $categories->getCategory($idcategory);
+    $listCategory = Category::listAll();
+    
+    $page = new Page();
+    $page->setTpl("category",[
+        "categoria" => $category,
+        "products" => $listCategory
+    ]);
+});
+
 $app->get('/admin', function() {
 
     User::verifyLogin();
