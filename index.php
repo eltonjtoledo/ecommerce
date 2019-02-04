@@ -2,7 +2,7 @@
 
 session_start();
 require_once("vendor/autoload.php");
-
+require "functions.php";
 use Slim\Slim;
 use Hcode\Page;
 use Hcode\PageAdmin;
@@ -15,9 +15,12 @@ $app = new Slim;
 $app->config('debug', true);
 
 $app->get('/', function() {
+   $products = Product::listAll();
 
     $page = new Page();
-    $page->setTpl("index");
+    $page->setTpl("index", [
+        "products" => $products
+    ]);
 });
 
 $app->get('/categoria/:idcategory', function($idcategory) {
